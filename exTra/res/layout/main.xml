@@ -1,12 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingLeft="20dip"
+	android:paddingRight="20dip" >
+    
+	<Spinner
+	    android:id="@+id/type"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" 
+	    android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/hello" />
-
+	<ListView
+	    android:id="@android:id/list"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dip"
+	    android:layout_weight="1"
+	    android:drawSelectorOnTop="false" >
+	</ListView>
+	
+	<TextView
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:text="@string/monthly_total"
+        	android:layout_gravity="center"
+        	android:layout_marginBottom="25dip"
+        	android:textSize="24.5sp" />
+	
+	<LinearLayout
+	    android:orientation="horizontal" 
+	    android:layout_height="wrap_content" 
+	    android:layout_width="fill_parent" 
+	    android:gravity="right" >
+	    
+		<Button 
+    		android:id="@+id/graph_button"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content" 
+    		android:text="@string/graph_button_label" />
+		
+		<Button 
+    		android:id="@+id/add_expense_button"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content" 
+    		android:text="@string/add_expense_button_label" />
+	
+	</LinearLayout>
+	
 </LinearLayout>
