@@ -7,11 +7,23 @@
     android:paddingLeft="20dip"
 	android:paddingRight="20dip" >
     
-	<Spinner
-	    android:id="@+id/type"
-	    android:layout_width="match_parent"
+    <LinearLayout
+	    android:orientation="horizontal" 
 	    android:layout_height="wrap_content" 
-	    android:layout_gravity="center_horizontal" />
+	    android:layout_width="fill_parent" >
+	    
+		<Spinner
+	    	android:id="@+id/months_spinner"
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content" 
+	    	android:layout_gravity="center_horizontal" />
+		
+		<Spinner
+	    	android:id="@+id/years_spinner"
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content" 
+	    	android:layout_gravity="center_horizontal" />
+	</LinearLayout>
 
 	<ListView
 	    android:id="@android:id/list"
@@ -35,17 +47,19 @@
 	    android:layout_width="fill_parent" 
 	    android:gravity="right" >
 	    
+	    <!-- 
 		<Button 
     		android:id="@+id/graph_button"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content" 
     		android:text="@string/graph_button_label" />
+		 -->
 		
 		<Button 
-    		android:id="@+id/add_expense_button"
-    		android:layout_width="wrap_content"
+    		android:id="@+id/new_expense_button"
+    		android:layout_width="fill_parent"
     		android:layout_height="wrap_content" 
-    		android:text="@string/add_expense_button_label" />
+    		android:text="@string/new_expense_button_label" />
 	
 	</LinearLayout>
 	

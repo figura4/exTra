@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ExTra</string>
-	<string name="add_expense_button_label">+</string>
+    <string name="app_name">exTra</string>
+	<string name="new_expense_button_label">New expense</string>
 	<string name="graph_button_label">Graphs</string>
 	<string name="monthly_total">Totale mensile: </string>
+	
+	<string-array name="months_array">
+        <item>Gennaio</item>
+        <item>Febbraio</item>
+        <item>Marzo</item>
+        <item>Aprile</item>
+        <item>Maggio</item>
+        <item>Giugno</item>
+        <item>Luglio</item>
+        <item>Agosto</item>
+        <item>Settembre</item>
+        <item>Ottobre</item>
+        <item>Novembre</item>
+        <item>Dicembre</item>
+    </string-array>
+    
+	<string-array name="years_array">
+        <item>2011</item>
+        <item>2012</item>
+        <item>2013</item>
+    </string-array>
 	
 </resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"     android:paddingLeft="20dip"
+	android:paddingRight="20dip" >
+	
+    <LinearLayout
+	    android:orientation="horizontal" 
+	    android:layout_height="wrap_content" 
+	    android:layout_width="fill_parent" >
+	    
+        <Spinner
+	    	android:id="@+id/new_exp_type_spinner"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content" 
+	    	android:layout_gravity="center_horizontal" />
+        
+    </LinearLayout>
+
+    <LinearLayout
+	    android:orientation="horizontal" 
+	    android:layout_height="wrap_content" 
+	    android:layout_width="fill_parent" >
+        
+    	<Spinner
+	    	android:id="@+id/new_exp_subtype_spinner"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content" 
+	    	android:layout_gravity="center_horizontal" />
+	    
+    </LinearLayout>
+    
+    <LinearLayout
+	    android:orientation="horizontal" 
+	    android:layout_height="wrap_content" 
+	    android:layout_width="fill_parent" >
+	    
+        <TextView
+            android:id="@+id/new_exp_date_text"
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:textSize="16sp"
+        	android:text="@string/monthly_total" />
+        
+    </LinearLayout>
+
+    <TextView
+    	android:id="@+id/new_exp_description_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="@string/monthly_total" />
+    
+    <TextView
+    	android:id="@+id/new_exp_amount_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="@string/monthly_total" />
+    
+    <Button 
+    	android:id="@+id/new_expense_new_button"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content" 
+    	android:text="@string/new_expense_button_label" />
+    
+</LinearLayout>
