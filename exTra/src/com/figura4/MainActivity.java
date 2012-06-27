@@ -12,11 +12,16 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 
 public class MainActivity extends ListActivity implements OnClickListener {
+	private ExpenseLog log;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        SQLiteExpenseLogFactory logFactory = new SQLiteExpenseLogFactory();
+        log = logFactory.createLog(2012, 6, 0, 0);
         
         initList();
         
@@ -28,32 +33,8 @@ public class MainActivity extends ListActivity implements OnClickListener {
     
     private void initList() {
     	// initializes list view
-        ArrayList<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+        ArrayList<Map<String, Object>> data = log.getExpenses(); 
         
-        Map<String, Object> map = new HashMap<String, Object>();
-    	map.put("type", "bolletta");
-    	map.put("subtype", "elettrica");
-    	map.put("description", "periodo maggio giugno 2012");
-    	map.put("date", "12/12/2012");
-    	map.put("amount", "127.32€");
-        data.add(map);
-        
-        map = new HashMap<String, Object>();
-    	map.put("type", "libri");
-    	map.put("subtype", "informatica");
-    	map.put("description", "java, servlet e jsp");
-    	map.put("date", "31/05/2012");
-    	map.put("amount", "47.32€");
-        data.add(map);
-        
-        map = new HashMap<String, Object>();
-    	map.put("type", "bolletta");
-    	map.put("subtype", "gas");
-    	map.put("description", "periodo maggio giugno 2012");
-    	map.put("date", "06/06/2012");
-    	map.put("amount", "65.38€");
-        data.add(map);
-    	
         String[] from = { "type", "subtype", "description", "date", "amount" };
         int[] views = { R.id.row_type, R.id.row_subtype, R.id.row_description, R.id.row_date, R.id.row_amount };
         
