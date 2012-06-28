@@ -4,65 +4,41 @@
     android:layout_height="match_parent"
     android:orientation="vertical"     android:paddingLeft="20dip"
 	android:paddingRight="20dip" >
-	
-    <LinearLayout
-	    android:orientation="horizontal" 
-	    android:layout_height="wrap_content" 
-	    android:layout_width="fill_parent" >
 	    
-        <Spinner
-	    	android:id="@+id/new_exp_type_spinner"
-	    	android:layout_width="fill_parent"
-	    	android:layout_height="wrap_content" 
-	    	android:layout_gravity="center_horizontal" />
-        
-    </LinearLayout>
-
-    <LinearLayout
-	    android:orientation="horizontal" 
+    <Spinner
+	    android:id="@+id/new_exp_type_spinner"
+	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content" 
-	    android:layout_width="fill_parent" >
-        
-    	<Spinner
-	    	android:id="@+id/new_exp_subtype_spinner"
-	    	android:layout_width="fill_parent"
-	    	android:layout_height="wrap_content" 
-	    	android:layout_gravity="center_horizontal" />
-	    
-    </LinearLayout>
+	    android:layout_gravity="center_horizontal" />
     
-    <LinearLayout
-	    android:orientation="horizontal" 
-	    android:layout_height="wrap_content" 
-	    android:layout_width="fill_parent" >
-	    
-        <TextView
-            android:id="@+id/new_exp_date_text"
-        	android:layout_width="match_parent"
-        	android:layout_height="wrap_content"
-        	android:textSize="16sp"
-        	android:text="@string/monthly_total" />
-        
-    </LinearLayout>
-
-    <TextView
-    	android:id="@+id/new_exp_description_text"
+    <EditText
+        android:id="@+id/new_exp_description_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="@string/monthly_total" />
+        android:inputType="textMultiLine" 
+        android:text="@string/new_expense_description" >
+    </EditText>
+            
+    <Button 
+    	android:id="@+id/new_exp_date_button"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content"
+    	android:text="@string/new_expense_pick_date" 
+    	android:onClick="showDatePickerDialog" />
     
-    <TextView
-    	android:id="@+id/new_exp_amount_text"
+    <EditText
+        android:id="@+id/new_exp_amount_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="@string/monthly_total" />
+        android:text="@string/new_expense_amount"
+        android:inputType="numberDecimal" >
+        
+    </EditText>
     
     <Button 
-    	android:id="@+id/new_expense_new_button"
+    	android:id="@+id/new_expense_save_button"
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content" 
-    	android:text="@string/new_expense_button_label" />
-    
+    	android:text="@string/new_expense_save_button" />
+
 </LinearLayout>

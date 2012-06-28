@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">exTra</string>
+    
+    <!-- Main activity -->
 	<string name="new_expense_button_label">New expense</string>
 	<string name="graph_button_label">Graphs</string>
 	<string name="monthly_total">Totale mensile: </string>
@@ -20,11 +22,20 @@
         <item>Novembre</item>
         <item>Dicembre</item>
     </string-array>
-    
-	<string-array name="years_array">
-        <item>2011</item>
-        <item>2012</item>
-        <item>2013</item>
+	
+	<!-- New expense activity -->
+	<string name="new_expense_pick_date">12/12/2012 </string>
+	<string name="new_expense_description">Hello android, second edition by Ed Burnette</string>
+	<string name="new_expense_amount">9,99€</string>
+	<string name="new_expense_save_button">Salva</string>
+	
+	<string-array name="type_array">
+        <item>Bolletta</item>
+        <item>Benzina</item>
+        <item>Elettronica di consumo</item>
+        <item>Libri</item>
+        <item>Magic</item>
+        <item>Telefono</item>
     </string-array>
 	
 </resources>
