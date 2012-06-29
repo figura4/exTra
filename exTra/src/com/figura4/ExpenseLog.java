@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public interface ExpenseLog {
-	public int newExpense(Expense expense);
+	public Expense newExpense(Expense expense);
 	public void deleteExpense(Expense expense);
 	public BigDecimal getTotalamount();
 	public ArrayList<Map<String, Object>> getExpenses();

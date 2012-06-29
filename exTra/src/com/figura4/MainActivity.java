@@ -30,7 +30,7 @@ public class MainActivity extends ListActivity implements OnClickListener, OnIte
         
     	//Gets Expense log
         logFactory = new SQLiteExpenseLogFactory();
-        log = logFactory.createLog(currentYear, currentMonth, -1, -1);
+        log = logFactory.createLog(this, currentYear, currentMonth, -1, -1);
         
         //Initializes views
         initList();
@@ -111,7 +111,7 @@ public class MainActivity extends ListActivity implements OnClickListener, OnIte
     		break;
     	}
     	
-    	log = logFactory.createLog(month, year, -1, -1);
+    	log = logFactory.createLog(this, month, year, -1, -1);
     }
 
     /** Spinner empty selection event handler */

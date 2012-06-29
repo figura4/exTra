@@ -12,18 +12,22 @@ public class StandardExpense implements Expense {
 	
 	public StandardExpense(long id, int year, int month, int day, int type, String description, BigDecimal amount) {
 		this.id = id;
-		this.date.set(year, month, day);
+		this.date.set(year, month-1, day);
 		this.type = type;
 		this.description = description;
 		this.amount = amount;
 	}
+	
+	/*public void setId(long id){
+		this.id = id;
+	}*/
 	
 	public void setYear(int year){
 		date.set(Calendar.YEAR, year);
 	}
 	
 	public void setMonth(int month){
-		date.set(Calendar.MONTH, month);
+		date.set(Calendar.MONTH, month-1);
 	}
 	
 	public void setDay(int day){
@@ -51,7 +55,7 @@ public class StandardExpense implements Expense {
 	}
 	
 	public int getMonth(){
-		return date.get(Calendar.MONTH);
+		return date.get(Calendar.MONTH) + 1;
 	}
 	
 	public int getDay(){
@@ -68,6 +72,10 @@ public class StandardExpense implements Expense {
 	
 	public BigDecimal getAmount(){
 		return amount;
+	}
+	
+	public long getTimeStamp(){
+		return date.getTimeInMillis();
 	}
 	
 }

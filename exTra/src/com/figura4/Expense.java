@@ -3,6 +3,7 @@ package com.figura4;
 import java.math.BigDecimal;
 
 public interface Expense {
+	//public void setId(long id);
 	public void setYear(int year);
 	public void setMonth(int month);
 	public void setDay(int day);
@@ -17,4 +18,5 @@ public interface Expense {
 	public int getType();
 	public String getDescription();
 	public BigDecimal getAmount();
+	public long getTimeStamp();
 }

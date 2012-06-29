@@ -2,17 +2,93 @@ package com.figura4;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 
 public class SQLiteExpenseLog implements ExpenseLog {
 
-	public int newExpense(Expense expense){
-		return 1;
+	// Database fields
+	private SQLiteDatabase database;
+	private ExpenseSQLiteHelper dbHelper;
+	private String[] allColumns = { ExpenseSQLiteHelper.COLUMN_ID,
+									 ExpenseSQLiteHelper.COLUMN_TYPE_ID,
+									 ExpenseSQLiteHelper.COLUMN_DATE,
+									 ExpenseSQLiteHelper.COLUMN_DESCRIPTION,
+									 ExpenseSQLiteHelper.COLUMN_DESCRIPTION};
+
+	public SQLiteExpenseLog(Context context, int year, int month, long type, long subtype) {
+		dbHelper = new ExpenseSQLiteHelper(context);
 	}
-	
-	public void deleteExpense(Expense expense) {
+
+	public void open() throws SQLException {
+		database = dbHelper.getWritableDatabase();
+	}
+
+	public void close() {
+		dbHelper.close();
+	}
+
+	public Expense newExpense(Expense expense) {
+		ContentValues values = new ContentValues();
+		values.put(ExpenseSQLiteHelper.COLUMN_TYPE_ID, expense.getType());
+		values.put(ExpenseSQLiteHelper.COLUMN_DATE, expense.getTimeStamp());
+		values.put(ExpenseSQLiteHelper.COLUMN_AMOUNT, expense.getAmount().toString());
+		values.put(ExpenseSQLiteHelper.COLUMN_DESCRIPTION, expense.getDescription());
 		
+		long insertId = database.insert(ExpenseSQLiteHelper.TABLE_EXPENSES, null, values);
+		Cursor cursor = database.query(ExpenseSQLiteHelper.TABLE_EXPENSES, allColumns, ExpenseSQLiteHelper.COLUMN_ID + " = " + insertId, 
+										null, null, null, null);
+		cursor.moveToFirst();
+		Expense newExpense = cursorToExpense(cursor);
+		cursor.close();
+		return newExpense;
+	}
+
+	public void deleteExpense(Expense expense) {
+		long id = expense.getId();
+		database.delete(ExpenseSQLiteHelper.TABLE_EXPENSES, 
+						ExpenseSQLiteHelper.COLUMN_ID + " = " + id, null);
+	}
+
+	public List<Expense> getAllExpenses() {
+		List<Expense> expenses = new ArrayList<Expense>();
+
+		Cursor cursor = database.query(ExpenseSQLiteHelper.TABLE_EXPENSES,
+										allColumns, null, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Expense expense = cursorToExpense(cursor);
+			expenses.add(expense);
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return expenses;
+	}
+
+	private Expense cursorToExpense(Cursor cursor) {
+		Calendar date = Calendar.getInstance();
+		date.setTimeInMillis(cursor.getLong(1));
+		
+		Expense expense = new StandardExpense(
+							cursor.getLong(0),
+							date.get(Calendar.YEAR),
+							date.get(Calendar.MONTH),
+							date.get(Calendar.DAY_OF_MONTH),
+							cursor.getInt(2),
+							cursor.getString(3),
+							new BigDecimal(cursor.getLong(4)));
+				
+		return expense;
 	}
 	
 	public BigDecimal getTotalamount() {

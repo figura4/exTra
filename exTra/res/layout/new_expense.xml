@@ -30,6 +30,7 @@
         android:id="@+id/new_exp_amount_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="right"
         android:text="@string/new_expense_amount"
         android:inputType="numberDecimal" >
         
