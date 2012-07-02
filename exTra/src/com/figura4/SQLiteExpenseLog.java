@@ -3,9 +3,7 @@ package com.figura4;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -23,9 +21,31 @@ public class SQLiteExpenseLog implements ExpenseLog {
 									 ExpenseSQLiteHelper.COLUMN_DATE,
 									 ExpenseSQLiteHelper.COLUMN_DESCRIPTION,
 									 ExpenseSQLiteHelper.COLUMN_DESCRIPTION};
+	private List<Expense> expenses = new ArrayList<Expense>();
 
 	public SQLiteExpenseLog(Context context, int year, int month, long type, long subtype) {
 		dbHelper = new ExpenseSQLiteHelper(context);
+		open();
+		// query for requested expenses
+		Calendar calendar_from = Calendar.getInstance();
+		calendar_from.set(year, month, 1);
+		Calendar calendar_to = Calendar.getInstance();
+		int maxDay = calendar_from.getActualMaximum(Calendar.DAY_OF_MONTH);
+		calendar_to.set(year, month, maxDay);
+		String from = String.format("date>=%s and date<=%s", calendar_from.getTimeInMillis(), calendar_to.getTimeInMillis());
+		Cursor cursor = database.query(ExpenseSQLiteHelper.TABLE_EXPENSES,
+				allColumns, from, null, null, null, null);
+
+		// generates expense list
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Expense expense = cursorToExpense(cursor);
+			expenses.add(expense);
+			cursor.moveToNext();
+		}
+		// closes the cursor
+		cursor.close();
+		close();
 	}
 
 	public void open() throws SQLException {
@@ -58,20 +78,7 @@ public class SQLiteExpenseLog implements ExpenseLog {
 						ExpenseSQLiteHelper.COLUMN_ID + " = " + id, null);
 	}
 
-	public List<Expense> getAllExpenses() {
-		List<Expense> expenses = new ArrayList<Expense>();
-
-		Cursor cursor = database.query(ExpenseSQLiteHelper.TABLE_EXPENSES,
-										allColumns, null, null, null, null, null);
-
-		cursor.moveToFirst();
-		while (!cursor.isAfterLast()) {
-			Expense expense = cursorToExpense(cursor);
-			expenses.add(expense);
-			cursor.moveToNext();
-		}
-		// Make sure to close the cursor
-		cursor.close();
+	public List<Expense> getExpenses() {
 		return expenses;
 	}
 
@@ -95,7 +102,7 @@ public class SQLiteExpenseLog implements ExpenseLog {
 		return new BigDecimal("1");
 	}
 	
-	public ArrayList<Map<String, Object>> getExpenses() {
+	/*public ArrayList<Map<String, Object>> getExpenses() {
 		ArrayList<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
         
         Map<String, Object> map = new HashMap<String, Object>();
@@ -123,6 +130,6 @@ public class SQLiteExpenseLog implements ExpenseLog {
         data.add(map);
         
         return data;
-	}
+	}*/
 
 }

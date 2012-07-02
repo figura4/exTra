@@ -10,7 +10,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 
 public class MainActivity extends ListActivity implements OnClickListener, OnItemSelectedListener {
@@ -44,13 +43,14 @@ public class MainActivity extends ListActivity implements OnClickListener, OnIte
     /** Initializes listview */
     private void initList() {
     	// initializes list view
-        ArrayList<Map<String, Object>> data = log.getExpenses(); 
+        //ArrayList<Map<String, Object>> data = log.getExpenses(); 
         
-        String[] from = { "type", "subtype", "description", "date", "amount" };
-        int[] views = { R.id.row_type, R.id.row_subtype, R.id.row_description, R.id.row_date, R.id.row_amount };
+        //String[] from = { "type", "description", "date", "amount" };
+        //int[] views = { R.id.row_type, R.id.row_description, R.id.row_date, R.id.row_amount };
         
-        ListAdapter adapter = new SimpleAdapter(this, data, R.layout.expenses_list_row, from, views);
+        //ListAdapter adapter = new SimpleAdapter(this, data, R.layout.expenses_list_row, from, views);
         
+        ListAdapter adapter = new ExpensesAdapter(this, log.getExpenses());
         setListAdapter(adapter);
     }
     

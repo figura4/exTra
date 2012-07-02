@@ -22,9 +22,9 @@ public class ExpenseSQLiteHelper extends SQLiteOpenHelper {
 			+ TABLE_EXPENSES + "(" 
 			+ COLUMN_ID + " integer primary key autoincrement, " 
 			+ COLUMN_TYPE_ID + " integer, "
-			+ COLUMN_DATE + "integer not null, "
-			+ COLUMN_DESCRIPTION + "text, "
-			+ COLUMN_AMOUNT + "real not null"
+			+ COLUMN_DATE + " integer not null, "
+			+ COLUMN_DESCRIPTION + " text, "
+			+ COLUMN_AMOUNT + " real not null"
 			+ ");";
 
 	public ExpenseSQLiteHelper(Context context) {
