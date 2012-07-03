@@ -49,12 +49,13 @@ final class ExpensesAdapter extends BaseAdapter {
 
 	    Expense expense = expenseList.get(position);
 	    
+	    // row customization
 	    TextView type = (TextView)view.findViewById(R.id.row_type);
 	    TextView amount = (TextView)view.findViewById(R.id.row_amount);
 	    TextView date = (TextView)view.findViewById(R.id.row_date);
 	    TextView description = (TextView)view.findViewById(R.id.row_description);
 	    
-	    type.setText(expense.getType());
+	    type.setText(expense.getType().getDescription());
 	    amount.setText(expense.getAmount().toString());
 	    date.setText(expense.getDay());
 	    description.setText(expense.getDescription());

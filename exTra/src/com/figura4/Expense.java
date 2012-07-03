@@ -7,7 +7,7 @@ public interface Expense {
 	public void setYear(int year);
 	public void setMonth(int month);
 	public void setDay(int day);
-	public void setType(int type);
+	public void setType(ExpenseType type);
 	public void setDescription(String description);
 	public void setAmount(BigDecimal amount);
 	
@@ -15,7 +15,7 @@ public interface Expense {
 	public int getYear();
 	public int getMonth();
 	public int getDay();
-	public int getType();
+	public ExpenseType getType();
 	public String getDescription();
 	public BigDecimal getAmount();
 	public long getTimeStamp();

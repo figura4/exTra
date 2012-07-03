@@ -3,13 +3,14 @@ package com.figura4;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
+
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -19,14 +20,16 @@ public class NewExpenseActivity extends FragmentActivity
 						implements OnClickListener, DatePickerDialog.OnDateSetListener {
 	
 	private Expense expense;   
+	private List<ExpenseType> typeList;
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_expense);
         
         Calendar calendar = Calendar.getInstance();
+        typeList = new SQLiteExpenseTypeList(this).getTypes();
         expense = new StandardExpense(-1, calendar.get(Calendar.YEAR), 
-        								   calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), -1, "", new BigDecimal(0));
+        								   calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new StandardExpenseType(-1, ""), "", new BigDecimal(0));
 
         //initialize type spinners
         initSpinners();
@@ -40,7 +43,7 @@ public class NewExpenseActivity extends FragmentActivity
     	case R.id.new_expense_save_button:
     		// updates expense object
     		Spinner typeSpinner = (Spinner) findViewById(R.id.new_exp_type_spinner);
-    		expense.setType(Integer.parseInt(typeSpinner.getSelectedItem().toString()));
+    		expense.setType((ExpenseType)typeSpinner.getSelectedItem());
     		EditText descriptionText = (EditText) findViewById(R.id.new_exp_description_text);
     		expense.setDescription(descriptionText.getText().toString());
     		EditText amountText = (EditText) findViewById(R.id.new_exp_amount_text);
@@ -59,9 +62,10 @@ public class NewExpenseActivity extends FragmentActivity
     private void initSpinners() {
         //Initializes months spinner content
         Spinner typeSpinner = (Spinner) findViewById(R.id.new_exp_type_spinner);
-        ArrayAdapter<CharSequence> typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.type_array, android.R.layout.simple_spinner_item);
-        typeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        typeSpinner.setAdapter(typeArrayAdapter);
+        //ArrayAdapter<CharSequence> typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.type_array, android.R.layout.simple_spinner_item);
+        TypeSpinnerAdapter typeSpinnerAdapter = new TypeSpinnerAdapter(this, typeList);
+        //TypeSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeSpinner.setAdapter(typeSpinnerAdapter);
     }
     
     // updates the views  

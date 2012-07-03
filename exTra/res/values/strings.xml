@@ -29,13 +29,4 @@
 	<string name="new_expense_amount">9,99€</string>
 	<string name="new_expense_save_button">Salva</string>
 	
-	<string-array name="type_array">
-        <item>Bolletta</item>
-        <item>Benzina</item>
-        <item>Elettronica di consumo</item>
-        <item>Libri</item>
-        <item>Magic</item>
-        <item>Telefono</item>
-    </string-array>
-	
 </resources>

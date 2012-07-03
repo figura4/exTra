@@ -6,14 +6,14 @@ import java.util.Calendar;
 public class StandardExpense implements Expense {
 	private long id;
 	private Calendar date = Calendar.getInstance();
-	private int type;
+	private ExpenseType type;
 	private String description;
 	private BigDecimal amount;
 	
-	public StandardExpense(long id, int year, int month, int day, int type, String description, BigDecimal amount) {
+	public StandardExpense(long id, int year, int month, int day, ExpenseType expenseType, String description, BigDecimal amount) {
 		this.id = id;
 		this.date.set(year, month-1, day);
-		this.type = type;
+		this.type = expenseType;
 		this.description = description;
 		this.amount = amount;
 	}
@@ -34,7 +34,7 @@ public class StandardExpense implements Expense {
 		date.set(Calendar.DAY_OF_MONTH, day);
 	}
 	
-	public void setType(int type){
+	public void setType(ExpenseType type) {
 		this.type = type;
 	}
 	
@@ -62,7 +62,7 @@ public class StandardExpense implements Expense {
 		return date.get(Calendar.DAY_OF_MONTH);
 	}
 	
-	public int getType(){
+	public ExpenseType getType(){
 		return type;
 	}
 	

@@ -16,16 +16,20 @@ public class SQLiteExpenseLog implements ExpenseLog {
 	// Database fields
 	private SQLiteDatabase database;
 	private ExpenseSQLiteHelper dbHelper;
-	private String[] allColumns = { ExpenseSQLiteHelper.COLUMN_ID,
-									 ExpenseSQLiteHelper.COLUMN_TYPE_ID,
-									 ExpenseSQLiteHelper.COLUMN_DATE,
-									 ExpenseSQLiteHelper.COLUMN_DESCRIPTION,
-									 ExpenseSQLiteHelper.COLUMN_DESCRIPTION};
+	private String[] allColumns = { ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_ID,
+									 ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_TYPE_ID,
+									 ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_DATE,
+									 ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_DESCRIPTION,
+									 ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_DESCRIPTION};
 	private List<Expense> expenses = new ArrayList<Expense>();
+	//private List<ExpenseType> typeList;
 
 	public SQLiteExpenseLog(Context context, int year, int month, long type, long subtype) {
 		dbHelper = new ExpenseSQLiteHelper(context);
 		open();
+		
+		//typeList = new SQLiteExpenseTypeList(context).getTypes();
+		
 		// query for requested expenses
 		Calendar calendar_from = Calendar.getInstance();
 		calendar_from.set(year, month, 1);
@@ -58,13 +62,13 @@ public class SQLiteExpenseLog implements ExpenseLog {
 
 	public Expense newExpense(Expense expense) {
 		ContentValues values = new ContentValues();
-		values.put(ExpenseSQLiteHelper.COLUMN_TYPE_ID, expense.getType());
-		values.put(ExpenseSQLiteHelper.COLUMN_DATE, expense.getTimeStamp());
-		values.put(ExpenseSQLiteHelper.COLUMN_AMOUNT, expense.getAmount().toString());
-		values.put(ExpenseSQLiteHelper.COLUMN_DESCRIPTION, expense.getDescription());
+		values.put(ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_TYPE_ID, expense.getType().getId());
+		values.put(ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_DATE, expense.getTimeStamp());
+		values.put(ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_AMOUNT, expense.getAmount().toString());
+		values.put(ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_DESCRIPTION, expense.getDescription());
 		
 		long insertId = database.insert(ExpenseSQLiteHelper.TABLE_EXPENSES, null, values);
-		Cursor cursor = database.query(ExpenseSQLiteHelper.TABLE_EXPENSES, allColumns, ExpenseSQLiteHelper.COLUMN_ID + " = " + insertId, 
+		Cursor cursor = database.query(ExpenseSQLiteHelper.TABLE_EXPENSES, allColumns, ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_ID + " = " + insertId, 
 										null, null, null, null);
 		cursor.moveToFirst();
 		Expense newExpense = cursorToExpense(cursor);
@@ -75,7 +79,7 @@ public class SQLiteExpenseLog implements ExpenseLog {
 	public void deleteExpense(Expense expense) {
 		long id = expense.getId();
 		database.delete(ExpenseSQLiteHelper.TABLE_EXPENSES, 
-						ExpenseSQLiteHelper.COLUMN_ID + " = " + id, null);
+						ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_ID + " = " + id, null);
 	}
 
 	public List<Expense> getExpenses() {
@@ -86,12 +90,14 @@ public class SQLiteExpenseLog implements ExpenseLog {
 		Calendar date = Calendar.getInstance();
 		date.setTimeInMillis(cursor.getLong(1));
 		
+		ExpenseType expenseType = new StandardExpenseType(cursor.getInt(2), cursor.getString(3));
+		
 		Expense expense = new StandardExpense(
 							cursor.getLong(0),
 							date.get(Calendar.YEAR),
 							date.get(Calendar.MONTH),
 							date.get(Calendar.DAY_OF_MONTH),
-							cursor.getInt(2),
+							expenseType,
 							cursor.getString(3),
 							new BigDecimal(cursor.getLong(4)));
 				
