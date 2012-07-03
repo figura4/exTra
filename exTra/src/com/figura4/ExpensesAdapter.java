@@ -56,8 +56,8 @@ final class ExpensesAdapter extends BaseAdapter {
 	    TextView description = (TextView)view.findViewById(R.id.row_description);
 	    
 	    type.setText(expense.getType().getDescription());
-	    amount.setText(expense.getAmount().toString());
-	    date.setText(expense.getDay());
+	    amount.setText(expense.getAmount().toString() + "€");
+	    date.setText(expense.getDay() + "/" + expense.getMonth() + "/" + expense.getYear());
 	    description.setText(expense.getDescription());
 
 	    return view;

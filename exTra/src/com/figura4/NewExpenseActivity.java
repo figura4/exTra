@@ -33,7 +33,11 @@ public class NewExpenseActivity extends FragmentActivity
 
         //initialize type spinners
         initSpinners();
-         
+        
+        //Sets button click listener
+        View newExpenseButton = findViewById(R.id.new_expense_save_button);
+        newExpenseButton.setOnClickListener(this);
+     
         updateDisplay();
     }
 
@@ -47,13 +51,18 @@ public class NewExpenseActivity extends FragmentActivity
     		EditText descriptionText = (EditText) findViewById(R.id.new_exp_description_text);
     		expense.setDescription(descriptionText.getText().toString());
     		EditText amountText = (EditText) findViewById(R.id.new_exp_amount_text);
-    		BigDecimal amount = new BigDecimal(amountText.getText().toString());
+    		String amountString = amountText.getText().toString();
+    		amountString = amountString.replace(",", ".");
+    		amountString = amountString.replaceAll("[^.\\d]", "");
+    		BigDecimal amount = new BigDecimal(amountString);
     		expense.setAmount(amount);
     		
     		// creates log and passes it the expense object
     		ExpenseLogFactory factory = new SQLiteExpenseLogFactory();
     		ExpenseLog log = factory.createLog(this, 2000, 1, -1, -1);
     		log.newExpense(expense);
+    		//this.getCallingActivity().update
+    		this.finish();
     		break;
     	}
 	}

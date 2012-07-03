@@ -105,6 +105,7 @@ public class MainActivity extends ListActivity implements OnClickListener, OnIte
     	}
     	
     	log = logFactory.createLog(this, month, year, -1, -1);
+    	initList();
     }
 
     /** Spinner empty selection event handler */
