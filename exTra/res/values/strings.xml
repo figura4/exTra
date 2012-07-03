@@ -7,6 +7,7 @@
 	<string name="new_expense_button_label">New expense</string>
 	<string name="graph_button_label">Graphs</string>
 	<string name="monthly_total">Totale mensile: </string>
+	<string name="empty_list">Expense log is empty</string>
 	
 	<string-array name="months_array">
         <item>Gennaio</item>

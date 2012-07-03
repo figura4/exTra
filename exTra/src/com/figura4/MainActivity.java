@@ -42,14 +42,7 @@ public class MainActivity extends ListActivity implements OnClickListener, OnIte
     
     /** Initializes listview */
     private void initList() {
-    	// initializes list view
-        //ArrayList<Map<String, Object>> data = log.getExpenses(); 
-        
-        //String[] from = { "type", "description", "date", "amount" };
-        //int[] views = { R.id.row_type, R.id.row_description, R.id.row_date, R.id.row_amount };
-        
-        //ListAdapter adapter = new SimpleAdapter(this, data, R.layout.expenses_list_row, from, views);
-        
+    	// initializes list view    
         ListAdapter adapter = new ExpensesAdapter(this, log.getExpenses());
         setListAdapter(adapter);
     }
