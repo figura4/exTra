@@ -1,10 +1,8 @@
 package com.figura4;
 
 import java.util.*;
-
-import com.figura4.SQLite.SQLiteExpenseLog;
 import com.figura4.model.ExpenseLog;
-
+import com.figura4.model.ExpenseFactory;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +21,7 @@ import android.widget.Spinner;
  *
  */
 public class MainActivity extends ListActivity implements OnClickListener {
+	private ExpenseFactory factory;
 	private ExpenseLog log;	 // current expese log
 	private Spinner monthsSpinner;
 	private Spinner yearsSpinner;
@@ -33,13 +32,15 @@ public class MainActivity extends ListActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        factory = new ExpenseFactory(this);
+        
         // getting current month/year
     	Calendar calendar = Calendar.getInstance();
     	int currentMonth = calendar.get(Calendar.MONTH);
     	int currentYear = calendar.get(Calendar.YEAR);
         
     	// creating Expense log
-        log = new SQLiteExpenseLog(this, currentYear, currentMonth, -1, -1);
+        log = factory.getLog(this, currentYear, currentMonth, null);
         
         // initializing views
         initList();
@@ -99,7 +100,7 @@ public class MainActivity extends ListActivity implements OnClickListener {
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			int year = Integer.parseInt(yearsSpinner.getAdapter().getItem(pos).toString());
     		int month =monthsSpinner.getSelectedItemPosition();
-			log = new SQLiteExpenseLog(view.getContext(), year, month, -1, -1);
+			log = factory.getLog(view.getContext(), year, month, null);
         	initList();
 		}
 
@@ -117,7 +118,7 @@ public class MainActivity extends ListActivity implements OnClickListener {
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			int year = Integer.parseInt(yearsSpinner.getSelectedItem().toString());
     		int month = pos;
-    		log = new SQLiteExpenseLog(view.getContext(), year, month, -1, -1);
+    		log = factory.getLog(view.getContext(), year, month, null);
         	initList();
 		}
 

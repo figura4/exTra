@@ -3,7 +3,6 @@ package com.figura4.model;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
-
 public class StandardExpense implements Expense {
 	private long id;
 	private Calendar date = Calendar.getInstance();
@@ -18,10 +17,6 @@ public class StandardExpense implements Expense {
 		this.description = description;
 		this.amount = amount;
 	}
-	
-	/*public void setId(long id){
-		this.id = id;
-	}*/
 	
 	public void setYear(int year){
 		date.set(Calendar.YEAR, year);

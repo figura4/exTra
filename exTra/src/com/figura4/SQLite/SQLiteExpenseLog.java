@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.figura4.model.Expense;
 import com.figura4.model.ExpenseLog;
+import com.figura4.model.ExpenseType;
 import com.figura4.model.ExpenseTypeList;
 import com.figura4.model.StandardExpense;
 
@@ -37,7 +38,7 @@ public class SQLiteExpenseLog implements ExpenseLog {
 	private List<Expense> expenses = new ArrayList<Expense>();
 	private ExpenseTypeList typeList;
 
-	public SQLiteExpenseLog(Context context, int year, int month, long type, long subtype) {
+	public SQLiteExpenseLog(Context context, int year, int month, ExpenseType type) {
 		dbHelper = new ExpenseSQLiteHelper(context);
 		open();
 		

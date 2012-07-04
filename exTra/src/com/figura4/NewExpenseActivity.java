@@ -3,15 +3,11 @@ package com.figura4;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-import com.figura4.SQLite.SQLiteExpenseLog;
-import com.figura4.SQLite.SQLiteExpenseTypeList;
 import com.figura4.model.Expense;
+import com.figura4.model.ExpenseFactory;
 import com.figura4.model.ExpenseLog;
 import com.figura4.model.ExpenseType;
 import com.figura4.model.ExpenseTypeList;
-import com.figura4.model.StandardExpense;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -32,6 +28,7 @@ import android.widget.Spinner;
 public class NewExpenseActivity extends FragmentActivity 
 						         implements OnClickListener, DatePickerDialog.OnDateSetListener {
 	
+	private ExpenseFactory factory;
 	private Expense expense;   
 	private ExpenseTypeList typeList;
 	
@@ -39,11 +36,13 @@ public class NewExpenseActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_expense);
         
+        factory = new ExpenseFactory(this);
+        
         // initializing expense and expense type list
         Calendar calendar = Calendar.getInstance();
-        typeList = new SQLiteExpenseTypeList(this);
-        expense = new StandardExpense(-1, calendar.get(Calendar.YEAR), 
-        								   calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), typeList.getType(1), "", new BigDecimal(0));
+        typeList = factory.getTypeList(this);
+        expense = factory.getExpense(-1, calendar.get(Calendar.YEAR), 
+				   calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), typeList.getType(1), "", new BigDecimal(0));
 
         //initialize type spinners
         initSpinners();
@@ -72,7 +71,7 @@ public class NewExpenseActivity extends FragmentActivity
     		expense.setAmount(amount);
     		
     		// creates log and passes it the expense object
-    		ExpenseLog log = new SQLiteExpenseLog(this, 2000, 1, -1, -1);
+    		ExpenseLog log = factory.getLog(this, 2000, 1, null);
     		log.newExpense(expense);
     		this.finish();
     		break;
