@@ -2,7 +2,7 @@ package com.figura4;
 
 import java.util.*;
 import com.figura4.model.ExpenseLog;
-import com.figura4.model.ExpenseFactory;
+import com.figura4.model.ResourceFactory;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +21,7 @@ import android.widget.Spinner;
  *
  */
 public class MainActivity extends ListActivity implements OnClickListener {
-	private ExpenseFactory factory;
+	private ResourceFactory factory;
 	private ExpenseLog log;	 // current expese log
 	private Spinner monthsSpinner;
 	private Spinner yearsSpinner;
@@ -32,7 +32,7 @@ public class MainActivity extends ListActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        factory = new ExpenseFactory(this);
+        factory = new ResourceFactory(this);
         
         // getting current month/year
     	Calendar calendar = Calendar.getInstance();

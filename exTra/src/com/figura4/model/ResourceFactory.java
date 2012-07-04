@@ -15,10 +15,10 @@ import com.figura4.SQLite.SQLiteExpenseTypeList;
  * @author figura4
  *
  */
-public class ExpenseFactory {
+public class ResourceFactory {
 	PreferencesManager prefManager;
 	
-	public ExpenseFactory(Context context) {
+	public ResourceFactory(Context context) {
 		prefManager = new PreferencesManager(context);
 	}
 	

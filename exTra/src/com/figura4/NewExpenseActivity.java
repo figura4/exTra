@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import com.figura4.model.Expense;
-import com.figura4.model.ExpenseFactory;
+import com.figura4.model.ResourceFactory;
 import com.figura4.model.ExpenseLog;
 import com.figura4.model.ExpenseType;
 import com.figura4.model.ExpenseTypeList;
@@ -28,7 +28,7 @@ import android.widget.Spinner;
 public class NewExpenseActivity extends FragmentActivity 
 						         implements OnClickListener, DatePickerDialog.OnDateSetListener {
 	
-	private ExpenseFactory factory;
+	private ResourceFactory factory;
 	private Expense expense;   
 	private ExpenseTypeList typeList;
 	
@@ -36,7 +36,7 @@ public class NewExpenseActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_expense);
         
-        factory = new ExpenseFactory(this);
+        factory = new ResourceFactory(this);
         
         // initializing expense and expense type list
         Calendar calendar = Calendar.getInstance();
