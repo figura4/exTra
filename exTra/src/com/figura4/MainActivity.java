@@ -12,9 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.Spinner;
 
-public class MainActivity extends ListActivity implements OnClickListener, OnItemSelectedListener {
+public class MainActivity extends ListActivity implements OnClickListener {
 	private ExpenseLog log;
-	private ExpenseLogFactory logFactory;
+	private Spinner monthsSpinner;
+	private Spinner yearsSpinner;
 	
     /** Called when the activity is first created. */
     @Override
@@ -28,8 +29,7 @@ public class MainActivity extends ListActivity implements OnClickListener, OnIte
     	int currentYear = calendar.get(Calendar.YEAR);
         
     	//Gets Expense log
-        logFactory = new SQLiteExpenseLogFactory();
-        log = logFactory.createLog(this, currentYear, currentMonth, -1, -1);
+        log = new SQLiteExpenseLog(this, currentYear, currentMonth, -1, -1);
         
         //Initializes views
         initList();
@@ -51,15 +51,16 @@ public class MainActivity extends ListActivity implements OnClickListener, OnIte
     private void initSpinners(int currentMonth, int currentYear) {
    	
         //Initializes months spinner content
-        Spinner monthsSpinner = (Spinner) findViewById(R.id.months_spinner);
+        monthsSpinner = (Spinner) findViewById(R.id.months_spinner);
+        monthsSpinner.setOnItemSelectedListener(new MonthSpinnerListener());
         ArrayAdapter<CharSequence> monthsArrayAdapter = ArrayAdapter.createFromResource(this, R.array.months_array, android.R.layout.simple_spinner_item);
         monthsArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         monthsSpinner.setAdapter(monthsArrayAdapter);
         monthsSpinner.setSelection(currentMonth); //sets selection to current month
-        monthsSpinner.setOnItemSelectedListener(this);
         
         //Initializes years spinner content
-        Spinner yearsSpinner = (Spinner) findViewById(R.id.years_spinner);
+        yearsSpinner = (Spinner) findViewById(R.id.years_spinner);
+        yearsSpinner.setOnItemSelectedListener(new YearSpinnerListener());
         ArrayAdapter<CharSequence> yearsArrayAdapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item);
         //Fills adapter with last 3 years
         for (int i = currentYear-2; i<=currentYear; i++){
@@ -68,7 +69,6 @@ public class MainActivity extends ListActivity implements OnClickListener, OnIte
         yearsArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         yearsSpinner.setAdapter(yearsArrayAdapter);
         yearsSpinner.setSelection(2); //Sets selection to current year
-        yearsSpinner.setOnItemSelectedListener(this);
         
     }
     
@@ -83,33 +83,39 @@ public class MainActivity extends ListActivity implements OnClickListener, OnIte
     }
     
     /** Spinner selection event handler */
-    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        // An item was selected. You can retrieve the selected item using
-        // parent.getItemAtPosition(pos)
+    public class YearSpinnerListener implements OnItemSelectedListener {
+
+		@Override
+		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+			int year = Integer.parseInt(yearsSpinner.getAdapter().getItem(pos).toString());
+    		int month =monthsSpinner.getSelectedItemPosition();
+			log = new SQLiteExpenseLog(view.getContext(), year, month, -1, -1);
+        	initList();
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> arg0) {
+			// do nothing
+		} 
     	
-    	Spinner monthSpinner = (Spinner) findViewById(R.id.months_spinner);
-    	Spinner yearSpinner = (Spinner) findViewById(R.id.years_spinner);
-    	int year = 0;
-    	int month = 0;
+    }
+    
+    /** Spinner selection event handler */
+    public class MonthSpinnerListener implements OnItemSelectedListener {
+
+		@Override
+		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+			int year = Integer.parseInt(yearsSpinner.getSelectedItem().toString());
+    		int month = pos;
+    		log = new SQLiteExpenseLog(view.getContext(), year, month, -1, -1);
+        	initList();
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> arg0) {
+			// do nothing
+		} 
     	
-    	switch (view.getId()) {
-    	case R.id.months_spinner:
-    		year = Integer.parseInt(yearSpinner.getSelectedItem().toString());
-    		month = pos;
-    		break;
-    		
-    	case R.id.years_spinner:
-    		year = Integer.parseInt(yearSpinner.getAdapter().getItem(pos).toString());
-    		month = Integer.parseInt(monthSpinner.getSelectedItem().toString());
-    		break;
-    	}
-    	
-    	log = logFactory.createLog(this, month, year, -1, -1);
-    	initList();
     }
 
-    /** Spinner empty selection event handler */
-    public void onNothingSelected(AdapterView<?> parent) {
-        // Do nothing
-    }
 }

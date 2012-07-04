@@ -57,7 +57,7 @@ final class ExpensesAdapter extends BaseAdapter {
 	    
 	    type.setText(expense.getType().getDescription());
 	    amount.setText(expense.getAmount().toString() + "€");
-	    date.setText(expense.getDay() + "/" + expense.getMonth() + "/" + expense.getYear());
+	    date.setText(expense.getDay() + "/" + (expense.getMonth()+1) + "/" + expense.getYear());
 	    description.setText(expense.getDescription());
 
 	    return view;

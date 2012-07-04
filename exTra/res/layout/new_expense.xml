@@ -15,15 +15,13 @@
         android:id="@+id/new_exp_description_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine" 
-        android:text="@string/new_expense_description" >
+        android:inputType="textMultiLine" >
     </EditText>
             
     <Button 
     	android:id="@+id/new_exp_date_button"
     	android:layout_width="fill_parent" 
-    	android:layout_height="wrap_content"
-    	android:text="@string/new_expense_pick_date" 
+    	android:layout_height="wrap_content" 
     	android:onClick="showDatePickerDialog" />
     
     <EditText
@@ -31,7 +29,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:text="@string/new_expense_amount"
         android:inputType="numberDecimal" >
         
     </EditText>

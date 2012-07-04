@@ -3,8 +3,6 @@ package com.figura4;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -20,16 +18,16 @@ public class NewExpenseActivity extends FragmentActivity
 						implements OnClickListener, DatePickerDialog.OnDateSetListener {
 	
 	private Expense expense;   
-	private List<ExpenseType> typeList;
+	private ExpenseTypeList typeList;
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_expense);
         
         Calendar calendar = Calendar.getInstance();
-        typeList = new SQLiteExpenseTypeList(this).getTypes();
+        typeList = new SQLiteExpenseTypeList(this);
         expense = new StandardExpense(-1, calendar.get(Calendar.YEAR), 
-        								   calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new StandardExpenseType(-1, ""), "", new BigDecimal(0));
+        								   calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), typeList.getType(1), "", new BigDecimal(0));
 
         //initialize type spinners
         initSpinners();
@@ -58,10 +56,8 @@ public class NewExpenseActivity extends FragmentActivity
     		expense.setAmount(amount);
     		
     		// creates log and passes it the expense object
-    		ExpenseLogFactory factory = new SQLiteExpenseLogFactory();
-    		ExpenseLog log = factory.createLog(this, 2000, 1, -1, -1);
+    		ExpenseLog log = new SQLiteExpenseLog(this, 2000, 1, -1, -1);
     		log.newExpense(expense);
-    		//this.getCallingActivity().update
     		this.finish();
     		break;
     	}
@@ -72,7 +68,7 @@ public class NewExpenseActivity extends FragmentActivity
         //Initializes months spinner content
         Spinner typeSpinner = (Spinner) findViewById(R.id.new_exp_type_spinner);
         //ArrayAdapter<CharSequence> typeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.type_array, android.R.layout.simple_spinner_item);
-        TypeSpinnerAdapter typeSpinnerAdapter = new TypeSpinnerAdapter(this, typeList);
+        TypeSpinnerAdapter typeSpinnerAdapter = new TypeSpinnerAdapter(this, typeList.getTypes());
         //TypeSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(typeSpinnerAdapter);
     }
