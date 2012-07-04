@@ -3,8 +3,8 @@ package com.figura4;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.figura4.Expense;
 import com.figura4.R;
+import com.figura4.model.Expense;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,7 +13,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-
+/**
+ * adapter for the expenses ListView in the main activity
+ * 
+ * @author figura4
+ *
+ */
 final class ExpensesAdapter extends BaseAdapter {
 	
 	private List<Expense> expenseList = new ArrayList<Expense>();

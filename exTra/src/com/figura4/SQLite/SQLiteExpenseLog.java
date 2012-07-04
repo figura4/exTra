@@ -1,9 +1,14 @@
-package com.figura4;
+package com.figura4.SQLite;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import com.figura4.model.Expense;
+import com.figura4.model.ExpenseLog;
+import com.figura4.model.ExpenseTypeList;
+import com.figura4.model.StandardExpense;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,6 +16,13 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * expense log based on 
+ * SQLite data source
+ * 
+ * @author figura4
+ *
+ */
 public class SQLiteExpenseLog implements ExpenseLog {
 
 	// Database fields
@@ -61,7 +73,12 @@ public class SQLiteExpenseLog implements ExpenseLog {
 		dbHelper.close();
 	}
 
+	/**
+	 * creates a new expense entry
+	 */
 	public Expense newExpense(Expense expense) {
+		
+		// Add exceptions management!!
 		ContentValues values = new ContentValues();
 		values.put(ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_TYPE_ID, expense.getType().getId());
 		values.put(ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_DATE, expense.getTimeStamp());
@@ -92,6 +109,12 @@ public class SQLiteExpenseLog implements ExpenseLog {
 		return expenses;
 	}
 
+	/**
+	 * converts a cursor current row into a StandardExpense object
+	 * 
+	 * @param cursor: data source
+	 * @return converted Expense object
+	 */
 	private Expense cursorToExpense(Cursor cursor) {
 		Calendar date = Calendar.getInstance();
 		date.setTimeInMillis(cursor.getLong(2));
@@ -108,6 +131,10 @@ public class SQLiteExpenseLog implements ExpenseLog {
 		return expense;
 	}
 	
+	/**
+	 * returns the sum of the amount fields
+	 * in the current log entries
+	 */
 	public BigDecimal getTotalamount() {
 		return new BigDecimal("1");
 	}

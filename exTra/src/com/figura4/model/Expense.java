@@ -1,9 +1,17 @@
-package com.figura4;
+package com.figura4.model;
 
 import java.math.BigDecimal;
 
+
+/** 
+ * represents a single entry 
+ * in the expenses log
+ * 
+ * @author figura4
+ *
+ */
+
 public interface Expense {
-	//public void setId(long id);
 	public void setYear(int year);
 	public void setMonth(int month);
 	public void setDay(int day);

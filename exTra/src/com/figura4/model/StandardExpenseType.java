@@ -1,4 +1,5 @@
-package com.figura4;
+package com.figura4.model;
+
 
 public class StandardExpenseType implements ExpenseType {
 	private long id;

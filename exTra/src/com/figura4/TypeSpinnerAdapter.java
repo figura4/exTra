@@ -2,6 +2,8 @@ package com.figura4;
 
 import java.util.List;
 
+import com.figura4.model.ExpenseType;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,12 @@ import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+/**
+ * custom adapter for expense type spinner
+ * 
+ * @author figura4
+ *
+ */
 public class TypeSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
 	private List<ExpenseType> typeList;
 	private LayoutInflater inflater; 

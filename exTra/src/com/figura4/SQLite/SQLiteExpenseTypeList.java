@@ -1,8 +1,12 @@
-package com.figura4;
+package com.figura4.SQLite;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.figura4.model.ExpenseType;
+import com.figura4.model.ExpenseTypeList;
+import com.figura4.model.StandardExpenseType;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,6 +14,12 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * TypeLyst based on SQLite datasource
+ * 
+ * @author figura4
+ *
+ */
 public class SQLiteExpenseTypeList implements ExpenseTypeList {
 	// Database fields
 	private SQLiteDatabase database;

@@ -1,7 +1,8 @@
-package com.figura4;
+package com.figura4.model;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+
 
 public class StandardExpense implements Expense {
 	private long id;

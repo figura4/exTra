@@ -3,6 +3,15 @@ package com.figura4;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import com.figura4.SQLite.SQLiteExpenseLog;
+import com.figura4.SQLite.SQLiteExpenseTypeList;
+import com.figura4.model.Expense;
+import com.figura4.model.ExpenseLog;
+import com.figura4.model.ExpenseType;
+import com.figura4.model.ExpenseTypeList;
+import com.figura4.model.StandardExpense;
+
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -14,8 +23,14 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+/**
+ * activity used to create a new expense entry
+ * 
+ * @author figura4
+ *
+ */
 public class NewExpenseActivity extends FragmentActivity 
-						implements OnClickListener, DatePickerDialog.OnDateSetListener {
+						         implements OnClickListener, DatePickerDialog.OnDateSetListener {
 	
 	private Expense expense;   
 	private ExpenseTypeList typeList;
@@ -24,6 +39,7 @@ public class NewExpenseActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_expense);
         
+        // initializing expense and expense type list
         Calendar calendar = Calendar.getInstance();
         typeList = new SQLiteExpenseTypeList(this);
         expense = new StandardExpense(-1, calendar.get(Calendar.YEAR), 
@@ -63,7 +79,7 @@ public class NewExpenseActivity extends FragmentActivity
     	}
 	}
 	
-    /** initializes spinner */
+    /** initializes spinners */
     private void initSpinners() {
         //Initializes months spinner content
         Spinner typeSpinner = (Spinner) findViewById(R.id.new_exp_type_spinner);
@@ -74,7 +90,8 @@ public class NewExpenseActivity extends FragmentActivity
     }
     
     // updates the views  
-    private void updateDisplay() {  
+    private void updateDisplay() { 
+    	// date button
     	Button pickDateButton = (Button) findViewById(R.id.new_exp_date_button);
     	SimpleDateFormat formattedDate = new SimpleDateFormat("dd MMMMM yyyy");
     	Calendar cal = Calendar.getInstance();
@@ -82,6 +99,11 @@ public class NewExpenseActivity extends FragmentActivity
     	pickDateButton.setText(formattedDate.format(cal.getTime()));  
     }
 
+    /**
+     * when a new date is set with DatePicker,
+     * update the expense values and
+     * the text in date button
+     */
 	@Override
 	public void onDateSet(DatePicker view, int year, int monthOfYear,
 			int dayOfMonth) {

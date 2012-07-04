@@ -1,6 +1,10 @@
 package com.figura4;
 
 import java.util.*;
+
+import com.figura4.SQLite.SQLiteExpenseLog;
+import com.figura4.model.ExpenseLog;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +16,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.Spinner;
 
+/**
+ * activity displayed on app launch
+ * 
+ * @author figura4
+ *
+ */
 public class MainActivity extends ListActivity implements OnClickListener {
-	private ExpenseLog log;
+	private ExpenseLog log;	 // current expese log
 	private Spinner monthsSpinner;
 	private Spinner yearsSpinner;
 	
@@ -23,26 +33,26 @@ public class MainActivity extends ListActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        //Gets current month/year
+        // getting current month/year
     	Calendar calendar = Calendar.getInstance();
     	int currentMonth = calendar.get(Calendar.MONTH);
     	int currentYear = calendar.get(Calendar.YEAR);
         
-    	//Gets Expense log
+    	// creating Expense log
         log = new SQLiteExpenseLog(this, currentYear, currentMonth, -1, -1);
         
-        //Initializes views
+        // initializing views
         initList();
         initSpinners(currentMonth, currentYear);
         
-        //Sets button click listener
+        // setting button click listener
         View newExpenseButton = findViewById(R.id.new_expense_button);
         newExpenseButton.setOnClickListener(this);
     }
     
-    /** Initializes listview */
+    /** initializes listview */
     private void initList() {
-    	// initializes list view    
+    	// using custom adapter  
         ListAdapter adapter = new ExpensesAdapter(this, log.getExpenses());
         setListAdapter(adapter);
     }
