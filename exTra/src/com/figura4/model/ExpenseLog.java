@@ -15,5 +15,5 @@ public interface ExpenseLog {
 	public void deleteExpense(Expense expense);
 	public BigDecimal getTotalamount();
 	public List<Expense> getExpenses(); // returns all entries in the log as an ArrayList of Expenses
-	public Expense getExpense(long ExpenseId);
+	//public Expense getExpense(long ExpenseId);
 }

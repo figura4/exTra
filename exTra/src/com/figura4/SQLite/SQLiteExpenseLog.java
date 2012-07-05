@@ -115,7 +115,7 @@ public class SQLiteExpenseLog implements ExpenseLog {
 		return expenses;
 	}
 	
-	public Expense getExpense(long ExpenseId) {
+	/*public Expense getExpense(long ExpenseId) {
 		Iterator<Expense> iterator = expenses.iterator();
 		Expense result = null;
 		while(iterator.hasNext()) {
@@ -127,7 +127,7 @@ public class SQLiteExpenseLog implements ExpenseLog {
 			}	
 		}
 		return result;
-	}
+	}*/
 
 	/**
 	 * converts a cursor current row into a StandardExpense object
