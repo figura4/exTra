@@ -6,7 +6,7 @@
     <!-- Main activity -->
 	<string name="new_expense_button_label">New expense</string>
 	<string name="graph_button_label">Graphs</string>
-	<string name="monthly_total">Totale mensile: </string>
+	<string name="monthly_total"></string>
 	<string name="empty_list">Expense log is empty</string>
 	
 	<string-array name="months_array">
@@ -22,6 +22,10 @@
         <item>Ottobre</item>
         <item>Novembre</item>
         <item>Dicembre</item>
+    </string-array>
+    
+	<string-array name="expense_context_menu_elements">
+        <item>Elimina</item>
     </string-array>
 	
 	<!-- New expense activity -->

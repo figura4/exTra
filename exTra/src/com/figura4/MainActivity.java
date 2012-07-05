@@ -1,11 +1,18 @@
 package com.figura4;
 
+import java.text.NumberFormat;
 import java.util.*;
+
+import com.figura4.model.Expense;
 import com.figura4.model.ExpenseLog;
 import com.figura4.model.ResourceFactory;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -13,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 /**
  * activity displayed on app launch
@@ -22,7 +30,7 @@ import android.widget.Spinner;
  */
 public class MainActivity extends ListActivity implements OnClickListener {
 	private ResourceFactory factory;
-	private ExpenseLog log;	 // current expese log
+	private ExpenseLog log;	 // current expense log
 	private Spinner monthsSpinner;
 	private Spinner yearsSpinner;
 	
@@ -43,12 +51,29 @@ public class MainActivity extends ListActivity implements OnClickListener {
         log = factory.getLog(this, currentYear, currentMonth, null);
         
         // initializing views
-        initList();
+        //initList();
         initSpinners(currentMonth, currentYear);
         
         // setting button click listener
         View newExpenseButton = findViewById(R.id.new_expense_button);
         newExpenseButton.setOnClickListener(this);
+        
+        registerForContextMenu(this.getListView());
+    }
+    
+    protected void onResume() {
+    	super.onResume();
+    	updateView();
+    }
+    
+    private void updateView() {
+		int year = Integer.parseInt(yearsSpinner.getSelectedItem().toString());
+		int month =monthsSpinner.getSelectedItemPosition();
+		log = factory.getLog(this, year, month, null);
+    	initList();
+    	
+    	TextView total = (TextView)this.findViewById(R.id.month_total);
+        total.setText("Totale mensile: " + NumberFormat.getCurrencyInstance().format(log.getTotalamount()));
     }
     
     /** initializes listview */
@@ -127,6 +152,26 @@ public class MainActivity extends ListActivity implements OnClickListener {
 			// do nothing
 		} 
     	
+    }
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+      if (v.getId()==this.getListView().getId()) {
+        menu.setHeaderTitle("Gestisci spesa");
+        String[] menuItems = getResources().getStringArray(R.array.expense_context_menu_elements);
+        for (int i = 0; i<menuItems.length; i++) {
+          menu.add(Menu.NONE, i, i, menuItems[i]);
+        }
+      }
+    }
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {  
+    	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+    	Expense expToDelete = (Expense)this.getListView().getItemAtPosition(info.position);
+    	log.deleteExpense(expToDelete);
+    	updateView();
+    	return true;
     }
 
 }

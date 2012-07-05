@@ -1,6 +1,9 @@
 package com.figura4;
 
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.figura4.R;
@@ -61,8 +64,9 @@ final class ExpensesAdapter extends BaseAdapter {
 	    TextView description = (TextView)view.findViewById(R.id.row_description);
 	    
 	    type.setText(expense.getType().getDescription());
-	    amount.setText(expense.getAmount().toString() + "€");
-	    date.setText(expense.getDay() + "/" + (expense.getMonth()+1) + "/" + expense.getYear());
+	    amount.setText(NumberFormat.getCurrencyInstance().format(expense.getAmount()));
+	    SimpleDateFormat formatter = new SimpleDateFormat("d MMMM");  // January
+	    date.setText(formatter.format(new Date(expense.getTimeStamp())));
 	    description.setText(expense.getDescription());
 
 	    return view;

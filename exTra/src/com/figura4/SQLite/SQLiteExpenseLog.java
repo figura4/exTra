@@ -3,6 +3,7 @@ package com.figura4.SQLite;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import com.figura4.model.Expense;
@@ -43,15 +44,17 @@ public class SQLiteExpenseLog implements ExpenseLog {
 		open();
 		
 		typeList = new SQLiteExpenseTypeList(context);
-		
+
 		// query for requested expenses
 		Calendar calendar_from = Calendar.getInstance();
-		calendar_from.set(year, month, 1);
+		//calendar_from.set(year, month, 1);
+		calendar_from.set(year, month, 1, 0, 0, 1);
 		Calendar calendar_to = Calendar.getInstance();
 		int maxDay = calendar_from.getActualMaximum(Calendar.DAY_OF_MONTH);
-		calendar_to.set(year, month, maxDay);
+		//calendar_to.set(year, month, maxDay);
+		calendar_to.set(year, month, maxDay, 23, 59, 59);
 		String where = String.format("date>=%s and date<=%s", calendar_from.getTimeInMillis(), calendar_to.getTimeInMillis());
-		
+
 		Cursor cursor = database.query(ExpenseSQLiteHelper.TABLE_EXPENSES, allColumns, where, null, null, null, null);
 
 		// generates expense list
@@ -102,12 +105,28 @@ public class SQLiteExpenseLog implements ExpenseLog {
 
 	public void deleteExpense(Expense expense) {
 		long id = expense.getId();
+		open();
 		database.delete(ExpenseSQLiteHelper.TABLE_EXPENSES, 
 						ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_ID + " = " + id, null);
+		close();
 	}
 
 	public List<Expense> getExpenses() {
 		return expenses;
+	}
+	
+	public Expense getExpense(long ExpenseId) {
+		Iterator<Expense> iterator = expenses.iterator();
+		Expense result = null;
+		while(iterator.hasNext()) {
+			result = iterator.next();
+			if (result.getId() != ExpenseId) {
+				result = null;
+			} else {
+				break;
+			}	
+		}
+		return result;
 	}
 
 	/**
@@ -137,7 +156,14 @@ public class SQLiteExpenseLog implements ExpenseLog {
 	 * in the current log entries
 	 */
 	public BigDecimal getTotalamount() {
-		return new BigDecimal("1");
+		BigDecimal totalAmount = new BigDecimal("0");
+		Iterator<Expense> iterator = expenses.iterator();
+		
+		while(iterator.hasNext()) {
+			totalAmount = totalAmount.add(iterator.next().getAmount());
+		}
+
+		return totalAmount;
 	}
 
 }
