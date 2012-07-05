@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.figura4.model.Expense;
@@ -49,11 +50,9 @@ public class SQLiteExpenseLog implements ExpenseLog {
 
 		// query for requested expenses
 		Calendar calendar_from = Calendar.getInstance();
-		//calendar_from.set(year, month, 1);
 		calendar_from.set(year, month, 1, 0, 0, 1);
 		Calendar calendar_to = Calendar.getInstance();
 		int maxDay = calendar_from.getActualMaximum(Calendar.DAY_OF_MONTH);
-		//calendar_to.set(year, month, maxDay);
 		calendar_to.set(year, month, maxDay, 23, 59, 59);
 		String where = String.format("date>=%s and date<=%s", calendar_from.getTimeInMillis(), calendar_to.getTimeInMillis());
 
@@ -84,7 +83,6 @@ public class SQLiteExpenseLog implements ExpenseLog {
 	 */
 	public Expense newExpense(Expense expense) {
 		
-		// Add exceptions management!!
 		ContentValues values = new ContentValues();
 		values.put(ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_TYPE_ID, expense.getType().getId());
 		values.put(ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_DATE, expense.getTimeStamp());
@@ -142,6 +140,18 @@ public class SQLiteExpenseLog implements ExpenseLog {
 		}
 		return result;
 	}*/
+	
+	public LinkedHashMap<String, Integer> getAmountsByType() {
+		LinkedHashMap<String, Integer> result = new LinkedHashMap<String, Integer>(); 
+		
+		result.put("Bollette", 40);
+		result.put("Cellulare", 30);
+		result.put("Libri", 20);
+		result.put("Benzina", 15);
+		result.put("Altro", 5);
+
+		return result;
+	}
 
 	/**
 	 * converts a cursor current row into a StandardExpense object

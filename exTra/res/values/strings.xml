@@ -8,6 +8,7 @@
 	<string name="graph_button_label">Graphs</string>
 	<string name="monthly_total"></string>
 	<string name="empty_list">Expense log is empty</string>
+	<string name="pie_chart_button_label">Pie chart</string>
 	
 	<string-array name="months_array">
         <item>Gennaio</item>

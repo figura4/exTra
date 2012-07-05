@@ -24,6 +24,8 @@
             android:name=".NewExpenseActivity"
             android:label="@string/app_name" >
         </activity>
+        
+        <activity android:name="org.achartengine.GraphicalActivity" />
     </application>
 
 </manifest>

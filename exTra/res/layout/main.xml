@@ -52,17 +52,15 @@
 	    android:layout_width="fill_parent" 
 	    android:gravity="right" >
 	    
-	    <!-- 
 		<Button 
-    		android:id="@+id/graph_button"
+    		android:id="@+id/pie_chart_button"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content" 
-    		android:text="@string/graph_button_label" />
-		 -->
+    		android:text="@string/pie_chart_button_label" />
 		
 		<Button 
     		android:id="@+id/new_expense_button"
-    		android:layout_width="fill_parent"
+    		android:layout_width="wrap_content"
     		android:layout_height="wrap_content" 
     		android:text="@string/new_expense_button_label" />
 	

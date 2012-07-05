@@ -3,6 +3,7 @@ package com.figura4;
 import java.text.NumberFormat;
 import java.util.*;
 
+import com.figura4.graph.PieChartManager;
 import com.figura4.model.Expense;
 import com.figura4.model.ExpenseLog;
 import com.figura4.model.ResourceFactory;
@@ -57,6 +58,9 @@ public class MainActivity extends ListActivity implements OnClickListener {
         // setting button click listener
         View newExpenseButton = findViewById(R.id.new_expense_button);
         newExpenseButton.setOnClickListener(this);
+        
+        View pieChartButton = findViewById(R.id.pie_chart_button);
+        pieChartButton.setOnClickListener(this);
         
         registerForContextMenu(this.getListView());
     }
@@ -115,6 +119,10 @@ public class MainActivity extends ListActivity implements OnClickListener {
     		Intent i = new Intent(this, NewExpenseActivity.class);
     		startActivity(i);
     		break;
+    		
+    	case R.id.pie_chart_button:
+    		Intent achartIntent = new PieChartManager().execute(this, log.getAmountsByType());
+    		startActivity(achartIntent);
     	}
     }
     

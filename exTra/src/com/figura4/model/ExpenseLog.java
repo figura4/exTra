@@ -1,5 +1,6 @@
 package com.figura4.model;
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 
@@ -14,6 +15,7 @@ public interface ExpenseLog {
 	public Expense newExpense(Expense expense);
 	public void deleteExpense(Expense expense);
 	public BigDecimal getTotalamount();
+	public LinkedHashMap<String, Integer> getAmountsByType();
 	public List<Expense> getExpenses(); // returns all entries in the log as an ArrayList of Expenses
 	//public Expense getExpense(long ExpenseId);
 }
