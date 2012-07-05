@@ -17,6 +17,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 /**
  * expense log based on 
@@ -55,7 +57,7 @@ public class SQLiteExpenseLog implements ExpenseLog {
 		calendar_to.set(year, month, maxDay, 23, 59, 59);
 		String where = String.format("date>=%s and date<=%s", calendar_from.getTimeInMillis(), calendar_to.getTimeInMillis());
 
-		Cursor cursor = database.query(ExpenseSQLiteHelper.TABLE_EXPENSES, allColumns, where, null, null, null, null);
+		Cursor cursor = database.query(ExpenseSQLiteHelper.TABLE_EXPENSES, allColumns, where, null, null, null, "date desc");
 
 		// generates expense list
 		cursor.moveToFirst();
@@ -89,16 +91,22 @@ public class SQLiteExpenseLog implements ExpenseLog {
 		values.put(ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_AMOUNT, expense.getAmount().toString());
 		values.put(ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_DESCRIPTION, expense.getDescription());
 		
+		Expense newExpense = null;
 		open();
 		
-		long insertId = database.insert(ExpenseSQLiteHelper.TABLE_EXPENSES, null, values);
-		Cursor cursor = database.query(ExpenseSQLiteHelper.TABLE_EXPENSES, allColumns, ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_ID + " = " + insertId, 
-										null, null, null, null);
-		cursor.moveToFirst();
-		Expense newExpense = cursorToExpense(cursor);
-		cursor.close();
-		
-		close();
+		try {
+			long insertId = database.insert(ExpenseSQLiteHelper.TABLE_EXPENSES, null, values);
+			Cursor cursor = database.query(ExpenseSQLiteHelper.TABLE_EXPENSES, allColumns, ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_ID + " = " + insertId, 
+					null, null, null, null);
+			cursor.moveToFirst();
+			newExpense = cursorToExpense(cursor);
+			cursor.close();
+		} catch(SQLiteException exception) {
+			Log.i("errore insert", "errore nell'inserimento spesa");
+		    exception.printStackTrace();
+		} finally {
+			close();
+		}
 		
 		return newExpense;
 	}
@@ -106,9 +114,15 @@ public class SQLiteExpenseLog implements ExpenseLog {
 	public void deleteExpense(Expense expense) {
 		long id = expense.getId();
 		open();
-		database.delete(ExpenseSQLiteHelper.TABLE_EXPENSES, 
-						ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_ID + " = " + id, null);
-		close();
+		try {
+			database.delete(ExpenseSQLiteHelper.TABLE_EXPENSES, 
+							ExpenseSQLiteHelper.TABLE_EXPENSES_COLUMN_ID + " = " + id, null);
+		} catch(SQLiteException exception) {
+			Log.i("errore delete", "errore nella cancellazione spesa");
+		    exception.printStackTrace();
+		} finally {
+			close();
+		}
 	}
 
 	public List<Expense> getExpenses() {
